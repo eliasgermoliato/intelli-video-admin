@@ -1,9 +1,9 @@
 package com.eglab.intelli.video.admin.domain.category;
 
 import java.time.Instant;
-import java.util.UUID;
 
 import com.eglab.intelli.video.admin.domain.AggregateRoot;
+import com.eglab.intelli.video.admin.domain.validation.ValidationHandler;
 
 public class Category extends AggregateRoot<CategoryID> {
 
@@ -37,6 +37,11 @@ public class Category extends AggregateRoot<CategoryID> {
         final var now = Instant.now();
 
         return new Category(id, aName, aDescription, isActive, now, now, null);
+    }
+
+    @Override
+    public void validate(final ValidationHandler handler){
+        new CategoryValidator(this, handler).validate();
     }
 
     public CategoryID getId() {
