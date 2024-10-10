@@ -1,6 +1,5 @@
 package com.eglab.intelli.video.admin.application.category.create;
 
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
 import static org.mockito.AdditionalAnswers.returnsFirstArg;
@@ -10,11 +9,22 @@ import java.util.Objects;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.eglab.intelli.video.admin.domain.category.CategoryGateway;
 
+@ExtendWith(MockitoExtension.class)
 public class CreateCategoryUseCaseTest {
+
+    @InjectMocks
+    private DefaultCreateCategoryUseCase useCase;
+
+    @Mock
+    private CategoryGateway categoryGateway;
 
     @Test
     public void givenAValidCommand_whenCallsCreateCategory_shouldReturnCategoryId() {
@@ -25,10 +35,7 @@ public class CreateCategoryUseCaseTest {
 
         final var aCommand = CreateCategoryCommand.with(expectedName, expectedDescription, expectedIsActive);
 
-        final CategoryGateway categoryGateway = mock(CategoryGateway.class);
         when(categoryGateway.create(Mockito.any())).thenAnswer(returnsFirstArg());
-
-        final var useCase = new DefaultCreateCategoryUseCase(categoryGateway);
 
         final var actualOutput = useCase.execute(aCommand);
 
